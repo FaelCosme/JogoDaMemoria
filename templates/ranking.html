@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Jogos</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    /* Estilos adicionais */
+    #form-container {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      width: 500px;
+      max-width: 100%;
+    }
+
+    #form-container button {
+      display: block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #form-container button:hover {
+      background-color: #45a049;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #808080;
+      color: white;
+    }
+
+    td {
+      background-color: #f2f2f2;
+    }
+    footer {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .info, .integrantes {
+        margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h1>Ranking dos Jogos</h1>
+    {% if user.is_authenticated %}
+    <div style="background-color: grey; padding: 10px; border-radius: 5px;">
+      <label>Sair do usuário</label>
+      <a href="{% url 'login' %}" style="text-decoration: none;">
+        <button style="height: 30px; width: 50px;">Sair</button>
+      </a>
+    </div>
+    {% endif %}
+  </header>
+
+  <main>
+    <table>
+      <thead>
+        <tr>
+          <th>Posição</th>
+          <th>Nome</th>
+          <th>Tentativas</th>
+          <th>Tempo</th>
+          <th>Data</th>
+          <th>Hora</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for jogo in jogo_listar %}
+        <tr>
+          <td>{{ jogo.Posição }}</td>
+          <td>{{ jogo.Nome }}</td>
+          <td>{{ jogo.Tentativas }}</td>
+          <td>{{ jogo.Tempo }}</td>
+          <td>{{ jogo.Data }}</td>
+          <td>{{ jogo.Hora }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </main>
+
+  <footer>
+    <section class="info">
+      <h2>Atividade</h2>
+      <p>Disciplina: Programação para Internet</p>
+      <p>Professor: Marcelo Figueiredo Barbosa Júnior</p>
+      <p>IFRN - Campus Santa Cruz/RN</p>
+    </section>
+    <section class="direitos">
+      <p>&copy; Todos os direitos reservados</p>
+    </section>
+    <section class="integrantes">
+      <h2>Grupo</h2>
+      <ul>
+        <li>Michel Melo de Carvalho</li>
+        <li>Rafael da Silva Cosme</li>
+        <li>Wagner da Silva Confessor</li>
+      </ul>
+    </section>
+  </footer>
+</body>
+</html>

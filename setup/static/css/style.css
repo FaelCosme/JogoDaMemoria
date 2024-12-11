@@ -1,0 +1,119 @@
+/* Estilos padrão */
+body {
+    background-image: url(../img/emojiPensativo.jpeg);
+    margin: 0;
+    padding: 0;
+}
+
+.memory-game {
+    text-align: center;
+    margin-top: 50px;
+    height: 600px;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Alterado para 3 colunas */
+    grid-template-rows: repeat(4, 1fr); /* Alterado para 4 linhas */
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.card {
+    width: calc(100% / 3 - 20px); /* Largura da carta ajustada para exibir 3 colunas */
+    height: 150px;
+    background-color: lightblue;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    perspective: 1000px;
+    margin: auto; /* Espaçamento entre as cartas */
+}
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    transform: rotateY(180deg);
+}
+
+.card.flipped .card-inner {
+    transform: rotateY(0deg);
+}
+
+.card-front,
+.card-back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    border-radius: 10%;
+}
+
+.card-front {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10%;
+}
+
+.card-back {
+    background-color: #333;
+    color: #fff;
+    transform: rotateY(180deg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5%;
+}
+
+footer {
+    display: flex;
+    width: 100%;
+    background-color: #333;
+}
+
+.info {
+    margin-left: auto;
+}
+
+.integrantes {
+    justify-content: end;
+    align-items: center;
+    margin: auto;
+}
+
+.direitos {
+    margin: auto;
+    align-items: center;
+}
+
+
+/* Media queries para larguras entre 400px e 700px */
+@media screen and (min-width: 400px) and (max-width: 700px) {
+    .cards-grid {
+        grid-template-columns: repeat(4, 1fr); /* Alterado para 4 colunas */
+        grid-template-rows: repeat(3, 1fr); /* Alterado para 3 linhas */
+    }
+
+    .card {
+        width: 80%; /* Largura da carta ajustada para exibir 4 colunas */
+    
+    }
+}
+
+/* Media query para larguras maiores que 700px */
+@media screen and (min-width: 701px) {
+    .cards-grid {
+        grid-template-columns: repeat(6, 1fr); /* Retornado para 6 colunas */
+        grid-template-rows: repeat(2, 1fr); /* Retornado para 2 linhas */
+    }
+
+    .card {
+        width: 40%; /* Largura da carta ajustada para exibir 6 colunas */
+    }
+}
