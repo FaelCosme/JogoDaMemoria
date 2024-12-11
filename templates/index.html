@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Jogo da Memória</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-  </head>
+</head>
   <body>
     <style>
         table {
@@ -121,25 +121,25 @@
       function createCard(symbol) {
         const card = document.createElement("div");
         card.classList.add("card");
-        card.addEventListener("click", flipCard);
-
+      
         const cardInner = document.createElement("div");
         cardInner.classList.add("card-inner");
-
+      
         const cardFront = document.createElement("div");
         cardFront.classList.add("card-front");
         cardFront.innerHTML = symbol;
-
+      
         const cardBack = document.createElement("div");
         cardBack.classList.add("card-back");
-
+      
         cardInner.appendChild(cardFront);
         cardInner.appendChild(cardBack);
         card.appendChild(cardInner);
-
+      
+        card.addEventListener("click", flipCard);
+      
         return card;
-      }
-
+      }      
       function flipCard() {
         if (!flippedCards.includes(this) && !matchedCards.includes(this)) {
           this.classList.add("flipped");
@@ -176,19 +176,25 @@
                 method: "POST",
                 body: formData,
                 headers: {
-                  "X-CSRFToken": "{{ csrf_token }}",
+                  "X-CSRFToken": "{{ csrf_token }}", // Certifique-se de que {{ csrf_token }} está no template
                 },
               })
-                .then((response) => response.json())
-                .then((data) => {
-                  if (data.status === "success") {
-                    console.log(data.message);
-                    window.location.href = "{% url 'ranking' %}";
-                  } else {
-                    console.error(data.message);
-                  }
-                })
-                .catch((error) => console.error("Erro ao salvar o jogo:", error));
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error(`Erro: ${response.statusText}`); // Correção aqui com template string correta
+                }
+                return response.json(); // Certifique-se de que o backend retorna um JSON
+              })
+              .then((data) => {
+                if (data.status === "success") {
+                  console.log(data.message);
+                  window.location.href = "{% url 'ranking' %}";
+                } else {
+                  console.error(data.message);
+                  alert(`Erro: ${data.message}`);
+                }
+              })
+              .catch((error) => console.error("Erro ao salvar o jogo:", error));              
             }, 500);
           }
         } else {

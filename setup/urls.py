@@ -24,7 +24,6 @@ from galeria.views import index, jogoSave, ranking, user_login
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('', user_login, name='login'),
     path('index/', index, name='index'),
     path('ranking/', ranking, name='ranking'),

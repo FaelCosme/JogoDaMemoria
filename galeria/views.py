@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect # type: ignore
 from galeria.models import Jogo, Jogador
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
-from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required # type: ignore
+from django.contrib.auth import authenticate, login # type: ignore
+from django.http import JsonResponse # type: ignore
 
 
 def format_time(seconds):
@@ -63,21 +63,23 @@ def ranking(request):
 @login_required
 def jogoSave(request):
     if request.method == "POST":
-        tentativas = request.POST.get('tentativas')
-        tempo = request.POST.get('tempo')
-
-        # Verificar se o Jogador já existe ou criar um novo
-        jogador, created = Jogador.objects.get_or_create(user=request.user)
-
-        # Criar o objeto Jogo
-        jogo = Jogo(nome=request.user.username, tentativas=tentativas, tempo=tempo, jogador=jogador)
-        jogo.save()
-
-        # Retornar uma resposta JSON
-        return JsonResponse({'status': 'success', 'message': 'Jogo salvo com sucesso!'})
-    
-    return JsonResponse({'status': 'error', 'message': 'Método inválido.'})
-
+        try:
+            tentativas = request.POST.get('tentativas')
+            tempo = request.POST.get('tempo')
+            
+            # Supondo que você tenha um modelo chamado Jogo
+            jogo = Jogo.objects.create(nome=request.user.username,
+                tentativas=tentativas,
+                tempo=tempo,
+                # outros campos aqui, como nome, data, etc.
+            )
+            
+            return JsonResponse({"status": "success", "message": "Jogo salvo com sucesso!"})
+        
+        except Exception as e:
+            # Log do erro, pode ser útil para o debug
+            print(f"Erro ao salvar o jogo: {e}")
+            return JsonResponse({"status": "error", "message": "Erro ao salvar o jogo."}, status=500)
 
 
 
