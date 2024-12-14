@@ -67,10 +67,10 @@ def jogoSave(request):
             tentativas = request.POST.get('tentativas')
             tempo = request.POST.get('tempo')
 
-            # Obter o jogador correspondente ao usuário logado
+            # Obtendo o jogador correspondente ao usuário logado
             jogador = Jogador.objects.get(user=request.user)
 
-            # Criar o objeto Jogo
+            # Criando o objeto Jogo
             jogo = Jogo.objects.create(
                 nome=jogador.nickname,  
                 tentativas=tentativas,
