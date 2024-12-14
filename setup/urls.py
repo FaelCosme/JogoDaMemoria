@@ -19,7 +19,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 # from django.conf import settings
 # from django.conf.urls.static import static
-from galeria.views import index, jogoSave, ranking, user_login
+from jogoMemoria.views import index, jogoSave, ranking, user_login
 
 urlpatterns = [
     path('admin/', admin.site.urls),

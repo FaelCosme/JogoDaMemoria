@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect # type: ignore
-from galeria.models import Jogo, Jogador
+from jogoMemoria.models import Jogo, Jogador
 from django.contrib.auth.decorators import login_required # type: ignore
 from django.contrib.auth import authenticate, login # type: ignore
 from django.http import JsonResponse # type: ignore
@@ -34,19 +34,30 @@ def listar_jogos():
     return jogo_listar
 
 
+from django.http import JsonResponse
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
+            try: 
+                # Tentando acessar o jogado 
+                jogador = user.jogador  
+            except Jogador.DoesNotExist:
+                # Caso não exista usuário vai aparecer essa mensagem
+                return render(request, 'registration/login.html', {'error': 'Usuário não encontrado.'})
+            
+            # Faz o login se tudo estiver certo
             login(request, user)
             return redirect('index')
         else:
-            return render(request, 'registration/login.html', {'error': 'Usuário ou senha inválidas'})
+            return render(request, 'registration/login.html', {'error': 'Usuário ou senha inválidos'})
 
     jogo_listar = listar_jogos()
     return render(request, 'registration/login.html', {'jogo_listar': jogo_listar})
+
 
 
 @login_required
