@@ -177,14 +177,14 @@
                 method: "POST",
                 body: formData,
                 headers: {
-                  "X-CSRFToken": "{{ csrf_token }}", // Certifique-se de que {{ csrf_token }} está no template
+                  "X-CSRFToken": "{{ csrf_token }}",
                 },
               })
               .then((response) => {
                 if (!response.ok) {
-                  throw new Error(`Erro: ${response.statusText}`); // Correção aqui com template string correta
+                  throw new Error(`Erro: ${response.statusText}`); 
                 }
-                return response.json(); // Certifique-se de que o backend retorna um JSON
+                return response.json(); 
               })
               .then((data) => {
                 if (data.status === "success") {

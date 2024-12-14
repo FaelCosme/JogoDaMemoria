@@ -100,6 +100,9 @@
     </style>
 </head>
 <body>
+  <script>
+    const csrfToken = "{{ csrf_token }}";
+  </script>
     <h1>Login</h1>
     <form method="post">
         {% csrf_token %}

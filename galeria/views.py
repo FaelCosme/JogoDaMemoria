@@ -66,24 +66,22 @@ def jogoSave(request):
         try:
             tentativas = request.POST.get('tentativas')
             tempo = request.POST.get('tempo')
-            
-            # Supondo que você tenha um modelo chamado Jogo
-            jogo = Jogo.objects.create(nome=request.user.username,
+
+            # Obter o jogador correspondente ao usuário logado
+            jogador = Jogador.objects.get(user=request.user)
+
+            # Criar o objeto Jogo
+            jogo = Jogo.objects.create(
+                nome=jogador.nickname,  
                 tentativas=tentativas,
                 tempo=tempo,
-                # outros campos aqui, como nome, data, etc.
+                jogador=jogador 
             )
             
             return JsonResponse({"status": "success", "message": "Jogo salvo com sucesso!"})
         
+        except Jogador.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Jogador não encontrado."}, status=404)
         except Exception as e:
-            # Log do erro, pode ser útil para o debug
             print(f"Erro ao salvar o jogo: {e}")
             return JsonResponse({"status": "error", "message": "Erro ao salvar o jogo."}, status=500)
-
-
-
-
-
-       
-
